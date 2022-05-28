@@ -4,36 +4,41 @@
 #include <string.h>
 int main(int argc, char* argv[])
 {
-    int ch, count = 1;
-    FILE* pt;
+    int character, count = 1;
+    FILE* test;
 
     //判断是否输入文件
     if (argc != 3) {
-        printf("请使用格式：%s + -c或-w  +  文件名 (-c表示统计字符个数，-w表示统计单词个数)", argv[0]);
-        exit(1); //结束程序 
+        printf("请输入正确文件名！");
+        //结束程序 
+        exit(1); 
     }
 
-    //能否成功打开文件
-    if ((pt = fopen(argv[2], "r")) == NULL) {
+    //判断能否成功打开文件
+    //文件打开失败 
+    if ((test = fopen(argv[2], "r")) == NULL) {
         printf("打开文件失败", argv[2]);
         exit(1);
     }
 
+	//打开文件成功且为‘-c’ 
     if (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "-C")==0)  {
         count = 0;
-        while ((ch = getc(pt)) != EOF) {
+        while ((character = getc(test)) != EOF) {
             count++;
         }
-        printf("字符数：%d个\n", count);
+        printf("该文件的字符数：%d个\n", count);
     }
+    
+    //打开文件成功且为‘-w’ 
     else if (strcmp(argv[1], "-w")==0 || strcmp(argv[1], "-W")==0){
-        while ((ch = getc(pt)) != EOF) {
-            if ((ch == ' ') || (ch == ','))
+        while ((character = getc(test)) != EOF) {
+            if ((character == ' ') || (character == ','))
                 count++;
         }
-        printf("单词数：%d个\n", count);
+        printf("该文件的单词数：%d个\n", count);
     }
-    fclose(pt);
+    fclose(test);
     return 0;
 }
 
